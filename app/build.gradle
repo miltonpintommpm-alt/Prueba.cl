@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    namespace 'cl.prueba.alerta'
+    namespace 'cl.prueba.ruteo'
     compileSdk 35
 
     defaultConfig {
-        applicationId 'cl.prueba.alerta'
-        minSdk 21
+        applicationId 'cl.prueba.ruteo'
+        minSdk 24
         targetSdk 35
         versionCode 1
         versionName '1.0'

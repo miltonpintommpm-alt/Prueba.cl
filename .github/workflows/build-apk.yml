@@ -18,26 +18,33 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Compilar APK (debug)
+      - name: Tests unitarios
+        run: ./gradlew --no-daemon :taller:testDebugUnitTest
+
+      - name: Compilar APKs (debug)
         run: ./gradlew --no-daemon assembleDebug
 
-      - name: Renombrar APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk AlertaPrueba.apk
+      - name: Renombrar APKs
+        run: |
+          cp app/build/outputs/apk/debug/app-debug.apk AlertaPrueba.apk
+          cp taller/build/outputs/apk/debug/taller-debug.apk TallerAceite.apk
 
-      - name: Subir APK como artefacto
+      - name: Subir APKs como artefacto
         uses: actions/upload-artifact@v4
         with:
-          name: AlertaPrueba-apk
-          path: AlertaPrueba.apk
+          name: apks
+          path: |
+            TallerAceite.apk
+            AlertaPrueba.apk
 
-      - name: Publicar APK en Releases
+      - name: Publicar APKs en Releases
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           TAG="apk-${GITHUB_REF_NAME//\//-}"
           gh release delete "$TAG" --yes --cleanup-tag || true
-          gh release create "$TAG" AlertaPrueba.apk \
+          gh release create "$TAG" TallerAceite.apk AlertaPrueba.apk \
             --target "$GITHUB_SHA" \
             --prerelease \
-            --title "Alerta Prueba (${GITHUB_REF_NAME})" \
-            --notes "APK de prueba compilado desde ${GITHUB_SHA}. Descarga AlertaPrueba.apk e instálalo en tu Android."
+            --title "APKs (${GITHUB_REF_NAME})" \
+            --notes "APKs compilados desde ${GITHUB_SHA}. Descarga TallerAceite.apk (app del taller) e instálalo en tu Android."

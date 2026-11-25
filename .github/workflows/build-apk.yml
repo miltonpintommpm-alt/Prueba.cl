@@ -21,8 +21,10 @@ jobs:
       - name: Compilar APK (debug)
         run: ./gradlew --no-daemon assembleDebug
 
-      - name: Renombrar APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk AlertaPrueba.apk
+      - name: Renombrar APKs
+        run: |
+          cp app/build/outputs/apk/debug/app-debug.apk AlertaPrueba.apk
+          cp salud/build/outputs/apk/debug/salud-debug.apk NutriFoto.apk
 
       - name: Subir APK como artefacto
         uses: actions/upload-artifact@v4
@@ -30,14 +32,20 @@ jobs:
           name: AlertaPrueba-apk
           path: AlertaPrueba.apk
 
+      - name: Subir APK de NutriFoto como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: NutriFoto-apk
+          path: NutriFoto.apk
+
       - name: Publicar APK en Releases
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           TAG="apk-${GITHUB_REF_NAME//\//-}"
           gh release delete "$TAG" --yes --cleanup-tag || true
-          gh release create "$TAG" AlertaPrueba.apk \
+          gh release create "$TAG" AlertaPrueba.apk NutriFoto.apk \
             --target "$GITHUB_SHA" \
             --prerelease \
-            --title "Alerta Prueba (${GITHUB_REF_NAME})" \
-            --notes "APK de prueba compilado desde ${GITHUB_SHA}. Descarga AlertaPrueba.apk e instálalo en tu Android."
+            --title "Apps de prueba (${GITHUB_REF_NAME})" \
+            --notes "APKs compilados desde ${GITHUB_SHA}: NutriFoto.apk (calorías por foto y plan de salud) y AlertaPrueba.apk."

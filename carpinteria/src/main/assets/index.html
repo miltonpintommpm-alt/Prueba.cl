@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#5b3a1e">
+  <title>Maestro Carpintero</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="top">
+    <button id="atras" class="atras" hidden aria-label="Atrás">‹</button>
+    <h1 id="titulo">Maestro Carpintero</h1>
+  </header>
+  <main id="app"></main>
+  <nav class="tabs" hidden>
+    <a href="#hoy"><span>🗓️</span>Hoy</a>
+    <a href="#ruta"><span>🧭</span>Ruta</a>
+    <a href="#maestro"><span>👴🏽</span>Maestro</a>
+    <a href="#progreso"><span>📈</span>Progreso</a>
+  </nav>
+  <div id="toast" role="status"></div>
+  <script src="curriculum.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

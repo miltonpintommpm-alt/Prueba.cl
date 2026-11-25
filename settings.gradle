@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "AlertaPrueba"
-include ':app'
+include ':app', ':carpinteria'
